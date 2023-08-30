@@ -94,44 +94,87 @@ function BasicDialogItem({
   );
 }
 
-function EditDialog(handlers: DialogItemHandlers) {
+const defaultEditDialogProps = {
+  triggerChildren: "Edit",
+  title: "Edit post",
+  description: "Edit your post's content.",
+  // don't include close because we want a new button for every EditDialog
+};
+
+function EditDialog({
+  postText = "",
+  onEdit,
+  ...handlers
+}: {
+  postText?: string;
+  onEdit?: (text: string) => void;
+} & DialogItemHandlers) {
+  const ref = useRef<HTMLTextAreaElement>(null);
   return (
     <BasicDialogItem
-      triggerChildren="Edit"
-      title="Edit post"
-      description="Edit your post's content."
-      close={<Button>Save</Button>}
       maxWidth={600}
+      {...defaultEditDialogProps}
+      close={
+        <Button
+          onClick={() => {
+            onEdit && onEdit(ref.current?.value || "");
+          }}
+        >
+          Save
+        </Button>
+      }
       {...handlers}
     >
       <TextArea
         aria-label="Post content"
+        defaultValue={postText}
+        ref={ref}
         rows={10}
       />
     </BasicDialogItem>
   );
 }
 
-function ArchiveDialog(handlers: DialogItemHandlers) {
+const defaultArchiveDialogProps = {
+  triggerChildren: "Archive",
+  title: "Archive post",
+  description: "Are you sure you want to archive this post?",
+};
+
+function ArchiveDialog({
+  onArchive,
+  ...handlers
+}: { onArchive?: () => void } & DialogItemHandlers) {
   return (
     <BasicDialogItem
-      triggerChildren="Archive"
-      title="Archive post"
-      description="Are you sure you want to archive this post?"
+      {...defaultArchiveDialogProps}
       close={<Button>Archive</Button>}
       {...handlers}
     />
   );
 }
 
-function DeleteDialog(handlers: DialogItemHandlers) {
+const defaultDeleteDialogProps = {
+  triggerChildren: "Delete",
+  title: "Delete post",
+  description: "Are you sure you want to delete this post?",
+  // couldn't put itemProps here because typescript didn't like it
+  // and I couldn't figure out how to make it work
+};
+
+function DeleteDialog({
+  onDelete,
+  ...handlers
+}: { onDelete?: () => void } & DialogItemHandlers) {
   return (
     <BasicDialogItem
-      triggerChildren="Delete"
-      title="Delete post"
-      description="Are you sure you want to delete this post?"
-      close={<Button color="red">Delete</Button>}
+      {...defaultDeleteDialogProps}
       itemProps={{ color: "red" }}
+      close={
+        <Button color="red" onClick={onDelete}>
+          Delete
+        </Button>
+      }
       {...handlers}
     />
   );
@@ -140,7 +183,17 @@ function DeleteDialog(handlers: DialogItemHandlers) {
 type DropdownMenuTriggerElement = React.ElementRef<typeof DropdownMenu.Trigger>;
 // The parts for focus and open/close are mostly copied from:
 // https://codesandbox.io/s/dropdownmenu-dialog-items-r9sq1q?file=/src/App.js
-export default function MoreOptionsMenu() {
+export default function MoreOptionsMenu({
+  postText,
+  onEdit,
+  onArchive,
+  onDelete,
+}: {
+  postText?: string;
+  onEdit?: (text: string) => void;
+  onArchive?: () => void;
+  onDelete?: () => void;
+}) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
   const dropdownTriggerRef = useRef<DropdownMenuTriggerElement>(null);
@@ -162,12 +215,12 @@ export default function MoreOptionsMenu() {
   const handlers = {
     onSelect: handleDialogItemSelect,
     onOpenChange: handleDialogItemOpenChange,
-  }
+  };
 
   return (
     <DropdownMenu.Root open={dropdownOpen} onOpenChange={setDropdownOpen}>
       <DropdownMenu.Trigger ref={dropdownTriggerRef}>
-        <IconButton variant="ghost">
+        <IconButton variant="ghost" mt="1" mr="1">
           <DotsHorizontalIcon />
         </IconButton>
       </DropdownMenu.Trigger>
@@ -183,9 +236,9 @@ export default function MoreOptionsMenu() {
           }
         }}
       >
-        <EditDialog {...handlers} />
-        <ArchiveDialog {...handlers} />
-        <DeleteDialog {...handlers} />
+        <EditDialog postText={postText} onEdit={onEdit} {...handlers} />
+        <ArchiveDialog onArchive={onArchive} {...handlers} />
+        <DeleteDialog onDelete={onDelete} {...handlers} />
       </DropdownMenu.Content>
     </DropdownMenu.Root>
   );
