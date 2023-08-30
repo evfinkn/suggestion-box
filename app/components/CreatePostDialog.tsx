@@ -6,7 +6,7 @@ export default function CreatePostDialog() {
   return (
     <Dialog.Root>
       <Dialog.Trigger>
-        <Button>Post</Button>
+        <Button style={{ maxWidth: "fit-content" }}>Post</Button>
       </Dialog.Trigger>
       <Dialog.Content style={{ maxWidth: 450 }}>
         <Dialog.Title>Post message</Dialog.Title>

@@ -67,16 +67,18 @@ interface BasicDialogItemProps extends Omit<DialogItemProps, "children"> {
   description: string;
   close: React.ReactNode;
   children?: React.ReactNode;
+  maxWidth?: string | number;
 }
 function BasicDialogItem({
   title,
   description,
   close,
   children,
+  maxWidth = 450,
   ...props
 }: BasicDialogItemProps) {
   return (
-    <DialogItem {...props} contentProps={{ style: { maxWidth: 450 } }}>
+    <DialogItem {...props} contentProps={{ style: { maxWidth } }}>
       <Dialog.Title>{title}</Dialog.Title>
       <Dialog.Description>{description}</Dialog.Description>
       {children}
@@ -99,9 +101,13 @@ function EditDialog(handlers: DialogItemHandlers) {
       title="Edit post"
       description="Edit your post's content."
       close={<Button>Save</Button>}
+      maxWidth={600}
       {...handlers}
     >
-      <TextArea aria-label="Post content" />
+      <TextArea
+        aria-label="Post content"
+        rows={10}
+      />
     </BasicDialogItem>
   );
 }
