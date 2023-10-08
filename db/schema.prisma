@@ -1,0 +1,37 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String     @id @default(uuid())
+  createdAt DateTime   @default(now())
+  posts     Post[]
+  reactions Reaction[]
+}
+
+model Post {
+  id        Int        @id @default(autoincrement())
+  content   String
+  createdAt DateTime   @default(now())
+  author    User       @relation(fields: [authorId], references: [id])
+  authorId  String
+  parent    Post?      @relation("ReplyTo", fields: [parentId], references: [id])
+  parentId  Int?
+  replies   Post[]     @relation("ReplyTo")
+  reactions Reaction[]
+}
+
+model Reaction {
+  id        Int      @id @default(autoincrement())
+  emoji     String
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  post      Post     @relation(fields: [postId], references: [id])
+  postId    Int
+}
