@@ -110,19 +110,12 @@ function EditDialog({
   onEdit?: (text: string) => void;
 } & DialogItemHandlers) {
   const ref = useRef<HTMLTextAreaElement>(null);
+  const onClick = () => onEdit && onEdit(ref.current?.value || "");
   return (
     <BasicDialogItem
       maxWidth={600}
       {...defaultEditDialogProps}
-      close={
-        <Button
-          onClick={() => {
-            onEdit && onEdit(ref.current?.value || "");
-          }}
-        >
-          Save
-        </Button>
-      }
+      close={<Button onClick={onClick}>Save</Button>}
       {...handlers}
     >
       <TextArea
