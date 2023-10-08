@@ -5,13 +5,13 @@ import { Button, Text, Tooltip } from "@radix-ui/themes";
 
 export default function ReactionCounter({
   emoji,
-  tooltip,
+  tooltip = "",
   count = 0,
   size = "1",
   reacted = false,
 }: {
   emoji: string;
-  tooltip: string;
+  tooltip?: string;
   count?: number;
   size?: "1" | "2" | "3" | "4";
   reacted?: boolean;

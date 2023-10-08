@@ -1,5 +1,3 @@
-"use client";
-
 import { IconButton, Popover, Text } from "@radix-ui/themes";
 import { InfoCircledIcon } from "@radix-ui/react-icons";
 

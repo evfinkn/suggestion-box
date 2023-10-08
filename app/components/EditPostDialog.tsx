@@ -1,27 +1,37 @@
-"use client";
-
-import { Dialog, Button, TextArea, Text, Flex } from "@radix-ui/themes";
+import {
+  Button,
+  TextArea,
+  Text,
+  Flex,
+  DialogRoot,
+  DialogTrigger,
+  DialogContent,
+  DialogTitle,
+  DialogDescription,
+  DialogClose,
+} from "@radix-ui/themes";
 
 export default function EditPostDialog() {
   return (
-    <Dialog.Root>
-      <Dialog.Trigger>
+    <DialogRoot>
+      <DialogTrigger>
         <Text>Edit</Text>
-      </Dialog.Trigger>
-      <Dialog.Content style={{ maxWidth: 450 }}>
-        <Dialog.Title>Edit post</Dialog.Title>
+      </DialogTrigger>
+      <DialogContent style={{ maxWidth: 450 }}>
+        <DialogTitle>Edit post</DialogTitle>
+        <DialogDescription>Edit your post's content.</DialogDescription>
         <TextArea aria-label="Message" />
         <Flex gap="3" mt="4" justify="end">
-          <Dialog.Close>
+          <DialogClose>
             <Button variant="soft" color="gray">
               Cancel
             </Button>
-          </Dialog.Close>
-          <Dialog.Close>
+          </DialogClose>
+          <DialogClose>
             <Button>Save</Button>
-          </Dialog.Close>
+          </DialogClose>
         </Flex>
-      </Dialog.Content>
-    </Dialog.Root>
+      </DialogContent>
+    </DialogRoot>
   );
 }
