@@ -1,3 +1,6 @@
+# Databases
+db/dev.db
+
 # Logs
 logs
 *.log
