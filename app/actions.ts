@@ -21,10 +21,21 @@ const getUserSession = async (): Promise<Session> => {
   }
 };
 
+interface SuccessPostState {
+  status: "success";
+}
+
+interface ErrorPostState {
+  status: "error";
+  error: string;
+}
+
+export type PostState = SuccessPostState | ErrorPostState | undefined;
+
 export const createPost = async (
-  setOpen: (open: boolean) => void,
+  _: PostState,
   data: FormData
-) => {
+): Promise<PostState> => {
   const content = data.get("content") as string;
   const session = await getUserSession();
   await prisma.post.create({
@@ -36,5 +47,5 @@ export const createPost = async (
     },
   });
   revalidatePath("/");
-  setOpen?.(false);
+  return { status: "success" };
 };

@@ -20,5 +20,18 @@ export const SubmitButton = React.forwardRef<
 
   // {...props} will pass children as well
   // put everything after props to make sure they're not overwritten
-  return <Button {...props} ref={ref} type="submit" aria-disabled={pending} />;
+  return (
+    <Button
+      {...props}
+      ref={ref}
+      type="submit"
+      aria-disabled={pending}
+      disabled={pending}
+      onClick={(e) => {
+        if (pending) {
+          e.preventDefault();
+        }
+      }}
+    />
+  );
 });

@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { experimental_useFormState as useFormState } from "react-dom";
 import {
   Button,
   TextArea,
@@ -10,16 +11,33 @@ import {
   DialogContent,
   DialogTitle,
   DialogDescription,
-  DialogClose,
 } from "@radix-ui/themes";
 
 import { createPost } from "@/app/actions";
 
+import { DialogCancelButton } from "./CancelButton";
 import { SubmitButton } from "./SubmitButton";
 
 export default function CreatePostDialog() {
   const [open, setOpen] = useState(false);
-  const createPostAndClose: (data: FormData) => void = createPost.bind(null, setOpen);
+  const [formState, formAction] = useFormState(createPost, undefined);
+
+  const textAreaRef = useRef<HTMLTextAreaElement>(null);
+
+  useEffect(() => {
+    if (formState?.status === "success") {
+      setOpen(false);
+      if (textAreaRef.current) {
+        textAreaRef.current.value = "";
+      }
+      window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: "smooth"
+      });
+    }
+  }, [formState]);
+
   return (
     <DialogRoot open={open} onOpenChange={setOpen}>
       <DialogTrigger>
@@ -30,8 +48,9 @@ export default function CreatePostDialog() {
         <DialogDescription>
           Post a message to the anonymous box.
         </DialogDescription>
-        <form action={createPostAndClose} method="POST">
+        <form action={formAction} method="POST">
           <TextArea
+            ref={textAreaRef}
             name="content"
             placeholder="Type your message..."
             aria-label="Message"
