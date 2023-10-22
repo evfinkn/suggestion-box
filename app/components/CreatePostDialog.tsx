@@ -58,11 +58,7 @@ export default function CreatePostDialog() {
             required
           />
           <Flex gap="3" mt="4" justify="end">
-            <DialogClose>
-              <Button variant="soft" color="gray" type="button">
-                Cancel
-              </Button>
-            </DialogClose>
+            <DialogCancelButton />
             <SubmitButton>Post</SubmitButton>
           </Flex>
         </form>
