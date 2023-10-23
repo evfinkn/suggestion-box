@@ -24,6 +24,7 @@ model Post {
   parentId  Int?
   replies   Post[]     @relation("ReplyTo")
   reactions Reaction[]
+  archived  Boolean    @default(false)
 }
 
 model Reaction {
