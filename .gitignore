@@ -1,5 +1,6 @@
 # Databases
 db/dev.db
+db/dev.db-journal
 
 # Logs
 logs
