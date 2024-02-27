@@ -28,6 +28,9 @@ export default function RootLayout({
             --theme-toggle-sun-icon-display: none;
             --theme-toggle-moon-icon-display: block;
           }
+          body {
+            margin-top: 0;
+          }
         `}</style>
       </head>
       <body>
