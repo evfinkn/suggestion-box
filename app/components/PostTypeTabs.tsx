@@ -12,7 +12,9 @@ import prisma from "@/db/prisma";
 
 import { type Post as PostData } from "@prisma/client";
 
+import CreatePostDialog from "./CreatePostDialog";
 import Post from "./Post";
+import ToggleThemeButton from "./ToggleThemeButton";
 
 export const dynamic = "auto",
   dynamicParams = true,
@@ -44,14 +46,31 @@ export default async function PostTypeTabs() {
     initial: "0",
     sm: "5",
     md: "9",
-  }
+  };
 
   return (
     <TabsRoot defaultValue="active">
-      <TabsList>
-        <TabsTrigger value="active">Active</TabsTrigger>
-        <TabsTrigger value="archived">Archived</TabsTrigger>
-        <TabsTrigger value="all">All</TabsTrigger>
+      <TabsList asChild>
+        <Box position="relative">
+          <Flex justify="center" width="100%">
+            <TabsTrigger value="active">Active</TabsTrigger>
+            <TabsTrigger value="archived">Archived</TabsTrigger>
+            <TabsTrigger value="all">All</TabsTrigger>
+          </Flex>
+          <Flex
+            position="absolute"
+            width="100%"
+            height="100%"
+            top="0"
+            left="0"
+            align="center"
+            justify="end"
+            gap="3"
+          >
+            <CreatePostDialog />
+            <ToggleThemeButton mr="4" />
+          </Flex>
+        </Box>
       </TabsList>
 
       <Box height="3" />
