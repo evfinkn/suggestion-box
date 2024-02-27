@@ -6,14 +6,15 @@
 import { Tooltip, IconButton } from "@radix-ui/themes";
 import { useTheme } from "next-themes";
 import { SunIcon, MoonIcon } from "@radix-ui/react-icons";
+import { IconButtonProps } from "@radix-ui/themes/dist/cjs/components/icon-button";
 
-export default function ToggleThemeButton() {
+export default function ToggleThemeButton(props: IconButtonProps) {
   const { theme, setTheme, systemTheme } = useTheme();
 
   return (
-    <Tooltip className="radix-themes-custom-fonts" content="Toggle theme">
+    <Tooltip content="Toggle theme">
       <IconButton
-        size="3"
+        {...props}
         variant="ghost"
         color="gray"
         onClick={() => {
